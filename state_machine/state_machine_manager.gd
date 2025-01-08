@@ -69,5 +69,6 @@ func _create_states_and_connect_signal() -> void:
 		child.transitioned.connect(_state_transitioned)
 		states[child.name.to_lower()] = child
 
+## Usado para inicializar variáveis das classes herdadas, evitando que _ready() tenha que ser reescrita.
 func _initialize_custom_variables() -> void:
 	pass
