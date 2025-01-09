@@ -8,12 +8,12 @@ signal state_changed ## Emitido quando o estado atual muda de valor
 
 @export var initial_state: StateMachine
 
-var machine_child_type: Script = preload("res://state_machine/state_machine.gd") # Representa o tipo de classe que o nó deve ter como filho
 var states: Dictionary # Dicionário com a referência de todos os estados disponíveis
 var current_state: StateMachine: # As funções enter e exit são chamadas quando current_state muda de valor
 	set(new_value):
 		if current_state != new_value:
-			current_state.exit()
+			if current_state:
+				current_state.exit()
 			new_value.enter()
 			current_state = new_value
 			state_changed.emit()
@@ -30,7 +30,7 @@ func _ready():
 
 func _check_children_type() -> void:
 	for child in get_children():
-		if child.get_script() != machine_child_type:
+		if child is not StateMachine:
 			assert(false, "O nó %s não é do tipo esperado!" % [child.name])
 
 func _process(delta: float) -> void:
